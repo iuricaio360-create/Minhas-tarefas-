@@ -773,4 +773,2142 @@
         }
 
         .settings-group {
-            margin-bo
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 10px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--border);
+        }
+
+        /* Celebration Modal */
+        .celebration-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .celebration-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .celebration-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .celebration-modal.active .celebration-content {
+            transform: scale(1);
+        }
+
+        .celebration-icon {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .celebration-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .celebration-message {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .celebration-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .celebration-close:hover {
+            color: var(--danger);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .date-selectors {
+                flex-direction: column;
+            }
+            
+            .task-actions {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .time-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .sidebar.active + .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Scrollbar */
+        .task-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .task-list::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 3px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Hamburger -->
+    <div class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-tasks fa-2x"></i>
+            <h2>Minhas Tarefas</h2>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#" data-section="tasks"><i class="fas fa-list-check"></i> Minhas Tarefas</a></li>
+            <li><a href="#" data-section="charts"><i class="fas fa-chart-line"></i> Gráficos</a></li>
+            <li><a href="#" data-section="comparison"><i class="fas fa-balance-scale"></i> Comparação</a></li>
+            <li><a href="#" data-section="history"><i class="fas fa-history"></i> Histórico</a></li>
+            <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> Configurações</a></li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <p>Sistema de Produtividade Pessoal</p>
+            <p>v1.0.0</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 id="page-title">Dashboard de Produtividade</h1>
+            <div class="notification-bell" id="notification-bell">
+                <i class="fas fa-bell"></i>
+                <div class="notification-badge" id="notification-count">0</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card completed">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value" id="completed-count">0</div>
+                    <div class="stat-label">Tarefas Concluídas</div>
+                </div>
+                
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="pending-count">0</div>
+                    <div class="stat-label">Tarefas Pendentes</div>
+                </div>
+                
+                <div class="stat-card overdue">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-value" id="overdue-count">0</div>
+                    <div class="stat-label">Tarefas Atrasadas</div>
+                </div>
+                
+                <div class="stat-card productivity">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value" id="productivity-score">0%</div>
+                    <div class="stat-label">Produtividade</div>
+                </div>
+            </div>
+
+            <!-- Date Control -->
+            <div class="date-control">
+                <div class="date-display">
+                    <span id="current-month-year">Janeiro 2024</span>
+                </div>
+                <div class="date-selectors">
+                    <div class="year-selector">
+                        <button class="year-btn" id="prev-year">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="year-display" id="current-year">2024</div>
+                        <button class="year-btn" id="next-year">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="month-selector">
+                        <button class="month-btn" id="prev-month">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="month-display" id="current-month">Janeiro</div>
+                        <button class="month-btn" id="next-month">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary" id="today-btn" style="width: auto; padding: 10px 20px;">
+                        <i class="fas fa-calendar-day"></i> Hoje
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="main-layout">
+                <!-- Tasks Panel -->
+                <div class="tasks-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Tarefas de Hoje</h3>
+                        <div class="filters">
+                            <select class="filter-select" id="task-filter-status">
+                                <option value="all">Todas</option>
+                                <option value="completed">Concluídas</option>
+                                <option value="pending">Pendentes</option>
+                                <option value="overdue">Atrasadas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="task-list" id="today-tasks">
+                        <!-- Tarefas serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <!-- Add Task Form -->
+                <div class="form-panel">
+                    <h3 class="form-title">Adicionar Nova Tarefa</h3>
+                    <form id="task-form">
+                        <div class="form-group">
+                            <label class="form-label">Título da Tarefa *</label>
+                            <input type="text" class="form-input" id="task-title" placeholder="Digite o título da tarefa" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Descrição (opcional)</label>
+                            <textarea class="form-textarea" id="task-description" placeholder="Descreva sua tarefa..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Horário</label>
+                            <div class="time-inputs">
+                                <div>
+                                    <label class="form-label">Início</label>
+                                    <input type="time" class="form-input" id="task-start-time">
+                                </div>
+                                <div>
+                                    <label class="form-label">Término</label>
+                                    <input type="time" class="form-input" id="task-end-time">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Data</label>
+                            <input type="date" class="form-input" id="task-date" value="">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ícone da Tarefa</label>
+                            <div class="icon-upload">
+                                <div class="icon-preview" id="icon-preview">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <label class="upload-btn">
+                                    <i class="fas fa-upload"></i> Escolher Imagem
+                                    <input type="file" id="icon-upload-input" accept="image/*" style="display: none;">
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Adicionar Tarefa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section id="charts-section" class="section" style="display: none;">
+            <div class="chart-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Gráfico de Produtividade</h3>
+                    <select class="filter-select" id="chart-period">
+                        <option value="week">Esta Semana</option>
+                        <option value="month">Este Mês</option>
+                        <option value="year">Este Ano</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productivity-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="chart-panel">
+                    <h3 class="panel-title">Distribuição de Tarefas</h3>
+                    <div class="chart-container">
+                        <canvas id="tasks-distribution-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-panel">
+                    <h3 class="panel-title">Tendência de Produtividade</h3>
+                    <div class="chart-container">
+                        <canvas id="trend-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison-section" class="section" style="display: none;">
+            <div class="comparison-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Comparação de Produtividade</h3>
+                </div>
+                
+                <div class="comparison-selectors">
+                    <div>
+                        <label class="form-label">Comparar</label>
+                        <select class="form-select" id="compare-type">
+                            <option value="month">Mês com Mês</option>
+                            <option value="year">Ano com Ano</option>
+                        </select>
+                    </div>
+                    
+                    <div id="first-period-selector">
+                        <label class="form-label">Primeiro Período</label>
+                        <select class="form-select" id="first-month">
+                            <!-- Meses serão carregados dinamicamente -->
+                        </select>
+                        <select class="form-select" id="first-year" style="margin-top: 10px;">
+                            <!-- Anos serão carregados dinamicamente -->
+                        </select>
+                    </div>
+                    
+                    <div id="second-period-selector">
+                        <label class="form-label">Segundo Período</label>
+                        <select class="form-select" id="second-month">
+                            <!-- Meses serão carregados dinamicamente -->
+                        </select>
+                        <select class="form-select" id="second-year" style="margin-top: 10px;">
+                            <!-- Anos serão carregados dinamicamente -->
+                        </select>
+                    </div>
+                    
+                    <div style="align-self: flex-end;">
+                        <button class="btn btn-primary" id="compare-btn" style="width: auto;">
+                            <i class="fas fa-balance-scale"></i> Comparar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="comparison-result" id="comparison-result" style="display: none;">
+                    <div class="result-title" id="comparison-title">Comparação</div>
+                    <div class="result-description" id="comparison-description">
+                        Selecione os períodos e clique em comparar.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history-section" class="section" style="display: none;">
+            <div class="tasks-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Histórico de Tarefas</h3>
+                    <div class="filters">
+                        <select class="filter-select" id="history-year">
+                            <!-- Anos serão carregados dinamicamente -->
+                        </select>
+                        <select class="filter-select" id="history-month">
+                            <option value="all">Todos os meses</option>
+                            <option value="0">Janeiro</option>
+                            <option value="1">Fevereiro</option>
+                            <option value="2">Março</option>
+                            <option value="3">Abril</option>
+                            <option value="4">Maio</option>
+                            <option value="5">Junho</option>
+                            <option value="6">Julho</option>
+                            <option value="7">Agosto</option>
+                            <option value="8">Setembro</option>
+                            <option value="9">Outubro</option>
+                            <option value="10">Novembro</option>
+                            <option value="11">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="task-list" id="history-tasks">
+                    <!-- Histórico de tarefas será carregado aqui -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" class="section" style="display: none;">
+            <div class="settings-panel">
+                <h3 class="panel-title">Configurações do Sistema</h3>
+                
+                <div class="settings-group">
+                    <h4 class="settings-title">Notificações</h4>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Notificações do Navegador</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Receba notificações sobre tarefas pendentes</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifications-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Lembretes Diários</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Receba um resumo diário de tarefas</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="daily-reminders-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h4 class="settings-title">Sons e Músicas</h4>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Som ao Concluir Tarefa</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Reproduzir som quando marcar tarefa como concluída</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="completion-sound-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Som de Tarefa Atrasada</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Reproduzir som quando houver tarefas atrasadas</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="overdue-sound-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">URL da Música para Conclusão</label>
+                        <input type="text" class="form-input" id="completion-music-url" placeholder="https://exemplo.com/musica-felicidade.mp3">
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">Deixe em branco para usar o som padrão</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">URL da Música para Tarefas Atrasadas</label>
+                        <input type="text" class="form-input" id="overdue-music-url" placeholder="https://exemplo.com/musica-alerta.mp3">
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;">Deixe em branco para usar o som padrão</p>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h4 class="settings-title">Dados</h4>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Exportar Dados</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Exporte todas as suas tarefas para um arquivo JSON</p>
+                        </div>
+                        <button class="btn btn-primary" id="export-data-btn" style="width: auto; padding: 10px 20px;">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Importar Dados</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Importe tarefas de um arquivo JSON</p>
+                        </div>
+                        <div>
+                            <input type="file" id="import-data-input" accept=".json" style="display: none;">
+                            <button class="btn btn-primary" id="import-data-btn" style="width: auto; padding: 10px 20px;">
+                                <i class="fas fa-upload"></i> Importar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div>
+                            <strong>Limpar Todos os Dados</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">Remover todas as tarefas e configurações</p>
+                        </div>
+                        <button class="btn btn-primary" id="clear-data-btn" style="width: auto; padding: 10px 20px; background: var(--danger);">
+                            <i class="fas fa-trash"></i> Limpar Tudo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div class="celebration-modal" id="celebration-modal">
+        <div class="celebration-content">
+            <button class="celebration-close" id="celebration-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="celebration-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="celebration-title" id="celebration-title">Parabéns!</h2>
+            <div class="celebration-message" id="celebration-message">
+                Você concluiu mais uma tarefa! Continue assim, você está indo muito bem!
+            </div>
+            <button class="btn btn-primary" id="celebration-ok">
+                <i class="fas fa-check"></i> Obrigado!
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="completion-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="overdue-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-1551.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // =========================================
+        // CONFIGURAÇÃO E DADOS
+        // =========================================
+        let tasks = [];
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth();
+        let selectedSection = 'dashboard';
+        let notificationPermission = false;
+        let settings = {
+            notifications: true,
+            dailyReminders: true,
+            completionSound: true,
+            overdueSound: true,
+            completionMusicUrl: '',
+            overdueMusicUrl: ''
+        };
+
+        // Categorias de ícones padrão
+        const defaultIcons = [
+            { id: 1, name: 'Trabalho', icon: 'fas fa-briefcase', color: '#3b82f6' },
+            { id: 2, name: 'Estudo', icon: 'fas fa-graduation-cap', color: '#8b5cf6' },
+            { id: 3, name: 'Casa', icon: 'fas fa-home', color: '#10b981' },
+            { id: 4, name: 'Exercício', icon: 'fas fa-dumbbell', color: '#ef4444' },
+            { id: 5, name: 'Compras', icon: 'fas fa-shopping-cart', color: '#f59e0b' },
+            { id: 6, name: 'Lazer', icon: 'fas fa-gamepad', color: '#ec4899' },
+            { id: 7, name: 'Saúde', icon: 'fas fa-heartbeat', color: '#06b6d4' },
+            { id: 8, name: 'Outros', icon: 'fas fa-tasks', color: '#6b7280' }
+        ];
+
+        // Mensagens de celebração
+        const celebrationMessages = [
+            "Excelente trabalho! Você está se tornando uma máquina de produtividade!",
+            "Parabéns! Mais uma tarefa concluída com sucesso!",
+            "Incrível! Você está dominando suas responsabilidades!",
+            "Bom trabalho! Cada tarefa concluída é um passo em direção aos seus objetivos!",
+            "Fantástico! Sua dedicação está rendendo frutos!",
+            "Muito bem! Continue assim e você alcançará tudo o que deseja!",
+            "Uau! Você está em um ritmo impressionante!",
+            "Excelente! Sua produtividade hoje está fora de série!",
+            "Bravo! Mais uma vitória na sua jornada de produtividade!",
+            "Impressionante! Você está construindo hábitos incríveis!"
+        ];
+
+        // =========================================
+        // INICIALIZAÇÃO
+        // =========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            initializeApp();
+            setupEventListeners();
+            updateUI();
+            checkOverdueTasks();
+            setupNotificationPermission();
+            
+            // Atualizar a cada minuto para verificar tarefas atrasadas
+            setInterval(checkOverdueTasks, 60000);
+        });
+
+        function loadData() {
+            // Carregar tarefas
+            const savedTasks = localStorage.getItem('my-tasks-app-tasks');
+            if (savedTasks) {
+                try {
+                    tasks = JSON.parse(savedTasks);
+                } catch (e) {
+                    console.error('Erro ao carregar tarefas:', e);
+                    tasks = [];
+                }
+            }
+
+            // Carregar configurações
+            const savedSettings = localStorage.getItem('my-tasks-app-settings');
+            if (savedSettings) {
+                try {
+                    settings = JSON.parse(savedSettings);
+                } catch (e) {
+                    console.error('Erro ao carregar configurações:', e);
+                }
+            }
+
+            // Carregar ícones personalizados
+            const savedIcons = localStorage.getItem('my-tasks-app-icons');
+            if (savedIcons) {
+                try {
+                    // Adicionar ícones personalizados aos ícones padrão
+                    const customIcons = JSON.parse(savedIcons);
+                    // Não substituímos, apenas adicionamos ao array
+                } catch (e) {
+                    console.error('Erro ao carregar ícones:', e);
+                }
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('my-tasks-app-tasks', JSON.stringify(tasks));
+            localStorage.setItem('my-tasks-app-settings', JSON.stringify(settings));
+        }
+
+        function initializeApp() {
+            // Configurar data atual no formulário
+            document.getElementById('task-form').reset();
+            document.getElementById('task-date').valueAsDate = new Date();
+            
+            // Configurar ícone padrão
+            document.getElementById('icon-preview').innerHTML = '<i class="fas fa-tasks"></i>';
+            
+            // Preencher selects de ano e mês
+            populateYearSelects();
+            populateMonthSelects();
+            
+            // Atualizar selects de configurações
+            document.getElementById('notifications-toggle').checked = settings.notifications;
+            document.getElementById('daily-reminders-toggle').checked = settings.dailyReminders;
+            document.getElementById('completion-sound-toggle').checked = settings.completionSound;
+            document.getElementById('overdue-sound-toggle').checked = settings.overdueSound;
+            document.getElementById('completion-music-url').value = settings.completionMusicUrl;
+            document.getElementById('overdue-music-url').value = settings.overdueMusicUrl;
+            
+            // Atualizar display de data
+            updateDateDisplay();
+            
+            // Inicializar gráficos
+            initializeCharts();
+        }
+
+        function setupEventListeners() {
+            // Menu toggle
+            document.getElementById('menu-toggle').addEventListener('click', toggleSidebar);
+            
+            // Navegação do sidebar
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    switchSection(section);
+                    
+                    // Atualizar classe ativa
+                    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Formulário de tarefa
+            document.getElementById('task-form').addEventListener('submit', addTask);
+            
+            // Upload de ícone
+            document.getElementById('icon-upload-input').addEventListener('change', handleIconUpload);
+            document.querySelector('.upload-btn').addEventListener('click', function() {
+                document.getElementById('icon-upload-input').click();
+            });
+            
+            // Controles de data
+            document.getElementById('prev-year').addEventListener('click', () => changeYear(-1));
+            document.getElementById('next-year').addEventListener('click', () => changeYear(1));
+            document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+            document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+            document.getElementById('today-btn').addEventListener('click', goToToday);
+            
+            // Filtros
+            document.getElementById('task-filter-status').addEventListener('change', updateTodayTasks);
+            document.getElementById('history-year').addEventListener('change', updateHistoryTasks);
+            document.getElementById('history-month').addEventListener('change', updateHistoryTasks);
+            document.getElementById('chart-period').addEventListener('change', updateCharts);
+            
+            // Comparação
+            document.getElementById('compare-type').addEventListener('change', updateComparisonSelectors);
+            document.getElementById('compare-btn').addEventListener('click', performComparison);
+            
+            // Configurações
+            document.getElementById('notifications-toggle').addEventListener('change', function() {
+                settings.notifications = this.checked;
+                saveData();
+                if (this.checked) setupNotificationPermission();
+            });
+            
+            document.getElementById('daily-reminders-toggle').addEventListener('change', function() {
+                settings.dailyReminders = this.checked;
+                saveData();
+            });
+            
+            document.getElementById('completion-sound-toggle').addEventListener('change', function() {
+                settings.completionSound = this.checked;
+                saveData();
+            });
+            
+            document.getElementById('overdue-sound-toggle').addEventListener('change', function() {
+                settings.overdueSound = this.checked;
+                saveData();
+            });
+            
+            document.getElementById('completion-music-url').addEventListener('change', function() {
+                settings.completionMusicUrl = this.value;
+                saveData();
+            });
+            
+            document.getElementById('overdue-music-url').addEventListener('change', function() {
+                settings.overdueMusicUrl = this.value;
+                saveData();
+            });
+            
+            // Exportar/importar dados
+            document.getElementById('export-data-btn').addEventListener('click', exportData);
+            document.getElementById('import-data-btn').addEventListener('click', function() {
+                document.getElementById('import-data-input').click();
+            });
+            document.getElementById('import-data-input').addEventListener('change', importData);
+            document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
+            
+            // Notificação
+            document.getElementById('notification-bell').addEventListener('click', showNotifications);
+            
+            // Modal de celebração
+            document.getElementById('celebration-close').addEventListener('click', closeCelebration);
+            document.getElementById('celebration-ok').addEventListener('click', closeCelebration);
+            
+            // Fechar modal ao clicar fora
+            document.getElementById('celebration-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeCelebration();
+            });
+        }
+
+        // =========================================
+        // FUNÇÕES DE INTERFACE
+        // =========================================
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function switchSection(section) {
+            // Esconder todas as seções
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            // Mostrar seção selecionada
+            document.getElementById(`${section}-section`).style.display = 'block';
+            
+            // Atualizar título da página
+            const titles = {
+                'dashboard': 'Dashboard de Produtividade',
+                'tasks': 'Minhas Tarefas',
+                'charts': 'Gráficos e Estatísticas',
+                'comparison': 'Comparação de Produtividade',
+                'history': 'Histórico de Tarefas',
+                'settings': 'Configurações'
+            };
+            
+            document.getElementById('page-title').textContent = titles[section] || 'Minhas Tarefas';
+            selectedSection = section;
+            
+            // Atualizar a UI específica da seção
+            if (section === 'dashboard') {
+                updateDashboard();
+            } else if (section === 'charts') {
+                updateCharts();
+            } else if (section === 'history') {
+                updateHistoryTasks();
+            } else if (section === 'comparison') {
+                updateComparisonSelectors();
+            }
+            
+            // Fechar sidebar em mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        function updateUI() {
+            updateDashboard();
+            updateTodayTasks();
+            updateNotificationCount();
+        }
+
+        // =========================================
+        // FUNÇÕES DE TAREFAS
+        // =========================================
+        function addTask(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('task-title').value.trim();
+            const description = document.getElementById('task-description').value.trim();
+            const startTime = document.getElementById('task-start-time').value;
+            const endTime = document.getElementById('task-end-time').value;
+            const date = document.getElementById('task-date').value;
+            const iconPreview = document.getElementById('icon-preview');
+            
+            if (!title) {
+                showNotification('Por favor, digite um título para a tarefa!', 'error');
+                return;
+            }
+            
+            // Determinar ícone
+            let icon = '';
+            let iconType = 'icon'; // 'icon' ou 'image'
+            
+            if (iconPreview.querySelector('img')) {
+                icon = iconPreview.querySelector('img').src;
+                iconType = 'image';
+            } else if (iconPreview.querySelector('i')) {
+                icon = iconPreview.querySelector('i').className;
+                iconType = 'icon';
+            }
+            
+            const task = {
+                id: Date.now() + Math.floor(Math.random() * 1000),
+                title: title,
+                description: description,
+                startTime: startTime,
+                endTime: endTime,
+                date: date || new Date().toISOString().split('T')[0],
+                completed: false,
+                createdAt: new Date().toISOString(),
+                completedAt: null,
+                icon: icon,
+                iconType: iconType,
+                overdue: false
+            };
+            
+            tasks.push(task);
+            saveData();
+            updateUI();
+            
+            // Resetar formulário
+            document.getElementById('task-form').reset();
+            document.getElementById('task-date').valueAsDate = new Date();
+            document.getElementById('icon-preview').innerHTML = '<i class="fas fa-tasks"></i>';
+            
+            showNotification('Tarefa adicionada com sucesso!');
+            
+            // Verificar se a tarefa já está atrasada
+            checkTaskOverdue(task);
+        }
+
+        function toggleTaskCompletion(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            
+            task.completed = !task.completed;
+            task.completedAt = task.completed ? new Date().toISOString() : null;
+            
+            saveData();
+            updateUI();
+            
+            if (task.completed) {
+                // Tocar som de conclusão
+                playCompletionSound();
+                
+                // Mostrar mensagem de celebração
+                showCelebration();
+                
+                // Enviar notificação
+                if (settings.notifications && notificationPermission) {
+                    sendNotification('Tarefa Concluída!', `Você concluiu: ${task.title}`);
+                }
+            }
+            
+            // Atualizar gráficos se estiver na seção de gráficos
+            if (selectedSection === 'charts') {
+                updateCharts();
+            }
+        }
+
+        function editTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            
+            const newTitle = prompt('Novo título:', task.title);
+            if (newTitle === null || newTitle.trim() === '') return;
+            
+            const newDescription = prompt('Nova descrição:', task.description);
+            if (newDescription === null) return;
+            
+            task.title = newTitle.trim();
+            task.description = newDescription;
+            
+            saveData();
+            updateUI();
+            showNotification('Tarefa atualizada!');
+        }
+
+        function deleteTask(id) {
+            if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                const initialLength = tasks.length;
+                tasks = tasks.filter(t => t.id !== id);
+                
+                if (tasks.length < initialLength) {
+                    saveData();
+                    updateUI();
+                    showNotification('Tarefa excluída!');
+                    
+                    // Atualizar gráficos se estiver na seção de gráficos
+                    if (selectedSection === 'charts') {
+                        updateCharts();
+                    }
+                } else {
+                    showNotification('Tarefa não encontrada!', 'error');
+                }
+            }
+        }
+
+        function checkTaskOverdue(task) {
+            if (task.completed) return false;
+            
+            const taskDate = new Date(task.date);
+            const today = new Date();
+            
+            // Se a data da tarefa for anterior a hoje, está atrasada
+            if (taskDate < today && !isSameDay(taskDate, today)) {
+                task.overdue = true;
+                return true;
+            }
+            
+            // Se for hoje, verificar o horário
+            if (isSameDay(taskDate, today) && task.endTime) {
+                const now = new Date();
+                const [hours, minutes] = task.endTime.split(':');
+                const endTime = new Date();
+                endTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                
+                if (now > endTime) {
+                    task.overdue = true;
+                    return true;
+                }
+            }
+            
+            task.overdue = false;
+            return false;
+        }
+
+        function checkOverdueTasks() {
+            let hasOverdue = false;
+            
+            tasks.forEach(task => {
+                if (checkTaskOverdue(task)) {
+                    hasOverdue = true;
+                }
+            });
+            
+            if (hasOverdue) {
+                saveData();
+                updateUI();
+                
+                // Tocar som de tarefa atrasada se configurado
+                if (settings.overdueSound) {
+                    playOverdueSound();
+                }
+                
+                // Enviar notificação se configurado
+                if (settings.notifications && notificationPermission) {
+                    const overdueCount = tasks.filter(t => t.overdue && !t.completed).length;
+                    if (overdueCount > 0) {
+                        sendNotification('Tarefas Atrasadas!', `Você tem ${overdueCount} tarefa(s) atrasada(s)`);
+                    }
+                }
+            }
+        }
+
+        function isSameDay(date1, date2) {
+            return date1.getFullYear() === date2.getFullYear() &&
+                   date1.getMonth() === date2.getMonth() &&
+                   date1.getDate() === date2.getDate();
+        }
+
+        // =========================================
+        // DASHBOARD E ESTATÍSTICAS
+        // =========================================
+        function updateDashboard() {
+            updateStats();
+            updateTodayTasks();
+            updateDateDisplay();
+        }
+
+        function updateStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayTasks = tasks.filter(t => t.date === today);
+            const allTasks = tasks.filter(t => {
+                const taskDate = new Date(t.date);
+                return taskDate.getFullYear() === currentYear && taskDate.getMonth() === currentMonth;
+            });
+            
+            // Tarefas de hoje
+            const completedToday = todayTasks.filter(t => t.completed).length;
+            const pendingToday = todayTasks.filter(t => !t.completed && !t.overdue).length;
+            const overdueToday = todayTasks.filter(t => !t.completed && t.overdue).length;
+            
+            // Tarefas do mês
+            const completedThisMonth = allTasks.filter(t => t.completed).length;
+            const totalThisMonth = allTasks.length;
+            const productivityScore = totalThisMonth > 0 ? Math.round((completedThisMonth / totalThisMonth) * 100) : 0;
+            
+            // Atualizar cards de estatísticas
+            document.getElementById('completed-count').textContent = completedToday;
+            document.getElementById('pending-count').textContent = pendingToday;
+            document.getElementById('overdue-count').textContent = overdueToday;
+            document.getElementById('productivity-score').textContent = `${productivityScore}%`;
+        }
+
+        function updateTodayTasks() {
+            const container = document.getElementById('today-tasks');
+            const filter = document.getElementById('task-filter-status').value;
+            const today = new Date().toISOString().split('T')[0];
+            
+            let filteredTasks = tasks.filter(t => t.date === today);
+            
+            // Aplicar filtro
+            if (filter === 'completed') {
+                filteredTasks = filteredTasks.filter(t => t.completed);
+            } else if (filter === 'pending') {
+                filteredTasks = filteredTasks.filter(t => !t.completed && !t.overdue);
+            } else if (filter === 'overdue') {
+                filteredTasks = filteredTasks.filter(t => t.overdue && !t.completed);
+            }
+            
+            // Ordenar: atrasadas primeiro, depois pendentes, depois concluídas
+            filteredTasks.sort((a, b) => {
+                if (a.overdue && !a.completed && !(b.overdue && !b.completed)) return -1;
+                if (!a.completed && a.overdue && b.completed) return -1;
+                if (a.completed && !b.completed) return 1;
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+            
+            if (filteredTasks.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <p>Nenhuma tarefa para hoje</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Adicione sua primeira tarefa usando o formulário</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filteredTasks.map(task => {
+                let statusClass = '';
+                let statusText = '';
+                
+                if (task.completed) {
+                    statusClass = 'status-completed';
+                    statusText = 'Concluída';
+                } else if (task.overdue) {
+                    statusClass = 'status-overdue';
+                    statusText = 'Atrasada';
+                } else {
+                    statusClass = 'status-pending';
+                    statusText = 'Pendente';
+                }
+                
+                // Formatar horário
+                let timeInfo = '';
+                if (task.startTime && task.endTime) {
+                    timeInfo = `${task.startTime} - ${task.endTime}`;
+                } else if (task.startTime) {
+                    timeInfo = `Início: ${task.startTime}`;
+                } else if (task.endTime) {
+                    timeInfo = `Término: ${task.endTime}`;
+                }
+                
+                // Determinar ícone
+                let iconHtml = '';
+                if (task.iconType === 'image') {
+                    iconHtml = `<img src="${task.icon}" alt="Ícone da tarefa">`;
+                } else {
+                    iconHtml = `<i class="${task.icon || 'fas fa-tasks'}"></i>`;
+                }
+                
+                return `
+                    <div class="task-item ${task.completed ? 'completed' : ''} ${task.overdue ? 'overdue' : ''}">
+                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTaskCompletion(${task.id})">
+                        
+                        <div class="task-icon" style="background: ${getTaskColor(task)}">
+                            ${iconHtml}
+                        </div>
+                        
+                        <div class="task-info">
+                            <div class="task-name">${task.title}</div>
+                            ${task.description ? `<div class="task-description">${task.description}</div>` : ''}
+                            <div class="task-meta">
+                                ${timeInfo ? `<div class="task-time"><i class="far fa-clock"></i> ${timeInfo}</div>` : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="task-actions">
+                            <button class="task-btn edit" onclick="editTask(${task.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="task-btn delete" onclick="deleteTask(${task.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getTaskColor(task) {
+            if (task.completed) return '#10b981';
+            if (task.overdue) return '#ef4444';
+            
+            // Tentar extrair cor do ícone
+            if (task.iconType === 'icon') {
+                const iconMatch = defaultIcons.find(icon => task.icon.includes(icon.icon));
+                if (iconMatch) return iconMatch.color;
+            }
+            
+            return '#6b7280'; // Cor padrão
+        }
+
+        // =========================================
+        // GRÁFICOS
+        // =========================================
+        let productivityChart, distributionChart, trendChart;
+
+        function initializeCharts() {
+            const ctx1 = document.getElementById('productivity-chart').getContext('2d');
+            const ctx2 = document.getElementById('tasks-distribution-chart').getContext('2d');
+            const ctx3 = document.getElementById('trend-chart').getContext('2d');
+            
+            // Gráfico de produtividade
+            productivityChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Tarefas Concluídas',
+                        data: [],
+                        backgroundColor: '#10b981',
+                        borderColor: '#059669',
+                        borderWidth: 1
+                    }, {
+                        label: 'Tarefas Pendentes',
+                        data: [],
+                        backgroundColor: '#f59e0b',
+                        borderColor: '#d97706',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de distribuição
+            distributionChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Concluídas', 'Pendentes', 'Atrasadas'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de tendência
+            trendChart = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Produtividade (%)',
+                        data: [],
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderColor: '#4f46e5',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            updateCharts();
+        }
+
+        function updateCharts() {
+            const period = document.getElementById('chart-period').value;
+            let labels = [];
+            let completedData = [];
+            let pendingData = [];
+            let trendData = [];
+            let trendLabels = [];
+            
+            const now = new Date();
+            let startDate, endDate;
+            
+            if (period === 'week') {
+                // Últimos 7 dias
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    labels.push(formatDateShort(date));
+                    
+                    const dayTasks = tasks.filter(t => {
+                        const taskDate = new Date(t.date);
+                        return isSameDay(taskDate, date);
+                    });
+                    
+                    completedData.push(dayTasks.filter(t => t.completed).length);
+                    pendingData.push(dayTasks.filter(t => !t.completed).length);
+                }
+                
+                // Tendência: últimas 4 semanas
+                for (let i = 3; i >= 0; i--) {
+                    const weekStart = new Date();
+                    weekStart.setDate(weekStart.getDate() - (i * 7) - 6);
+                    const weekEnd = new Date();
+                    weekEnd.setDate(weekEnd.getDate() - (i * 7));
+                    
+                    const weekTasks = tasks.filter(t => {
+                        const taskDate = new Date(t.date);
+                        return taskDate >= weekStart && taskDate <= weekEnd;
+                    });
+                    
+                    const completed = weekTasks.filter(t => t.completed).length;
+                    const total = weekTasks.length;
+                    const productivity = total > 0 ? Math.round((completed / total) * 100) : 0;
+                    
+                    trendData.push(productivity);
+                    trendLabels.push(`Sem ${i+1}`);
+                }
+                
+            } else if (period === 'month') {
+                // Últimos 30 dias
+                for (let i = 29; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    
+                    // Agrupar por semana para não ter muitos pontos
+                    if (i % 5 === 0 || i === 29) {
+                        labels.push(formatDateShort(date));
+                        
+                        const dayTasks = tasks.filter(t => {
+                            const taskDate = new Date(t.date);
+                            return isSameDay(taskDate, date);
+                        });
+                        
+                        completedData.push(dayTasks.filter(t => t.completed).length);
+                        pendingData.push(dayTasks.filter(t => !t.completed).length);
+                    }
+                }
+                
+                // Tendência: últimos 6 meses
+                for (let i = 5; i >= 0; i--) {
+                    const month = new Date();
+                    month.setMonth(month.getMonth() - i);
+                    
+                    const monthTasks = tasks.filter(t => {
+                        const taskDate = new Date(t.date);
+                        return taskDate.getFullYear() === month.getFullYear() && 
+                               taskDate.getMonth() === month.getMonth();
+                    });
+                    
+                    const completed = monthTasks.filter(t => t.completed).length;
+                    const total = monthTasks.length;
+                    const productivity = total > 0 ? Math.round((completed / total) * 100) : 0;
+                    
+                    trendData.push(productivity);
+                    trendLabels.push(month.toLocaleDateString('pt-BR', { month: 'short' }));
+                }
+                
+            } else { // year
+                // Últimos 12 meses
+                for (let i = 11; i >= 0; i--) {
+                    const month = new Date();
+                    month.setMonth(month.getMonth() - i);
+                    
+                    labels.push(month.toLocaleDateString('pt-BR', { month: 'short' }));
+                    
+                    const monthTasks = tasks.filter(t => {
+                        const taskDate = new Date(t.date);
+                        return taskDate.getFullYear() === month.getFullYear() && 
+                               taskDate.getMonth() === month.getMonth();
+                    });
+                    
+                    completedData.push(monthTasks.filter(t => t.completed).length);
+                    pendingData.push(monthTasks.filter(t => !t.completed).length);
+                }
+                
+                // Tendência: últimos 3 anos
+                for (let i = 2; i >= 0; i--) {
+                    const year = new Date();
+                    year.setFullYear(year.getFullYear() - i);
+                    
+                    const yearTasks = tasks.filter(t => {
+                        const taskDate = new Date(t.date);
+                        return taskDate.getFullYear() === year.getFullYear();
+                    });
+                    
+                    const completed = yearTasks.filter(t => t.completed).length;
+                    const total = yearTasks.length;
+                    const productivity = total > 0 ? Math.round((completed / total) * 100) : 0;
+                    
+                    trendData.push(productivity);
+                    trendLabels.push(year.getFullYear().toString());
+                }
+            }
+            
+            // Atualizar gráfico de produtividade
+            productivityChart.data.labels = labels;
+            productivityChart.data.datasets[0].data = completedData;
+            productivityChart.data.datasets[1].data = pendingData;
+            productivityChart.update();
+            
+            // Atualizar gráfico de distribuição
+            const allTasks = tasks.filter(t => {
+                const taskDate = new Date(t.date);
+                if (period === 'week') {
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return taskDate >= weekAgo;
+                } else if (period === 'month') {
+                    const monthAgo = new Date();
+                    monthAgo.setMonth(monthAgo.getMonth() - 1);
+                    return taskDate >= monthAgo;
+                } else {
+                    const yearAgo = new Date();
+                    yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+                    return taskDate >= yearAgo;
+                }
+            });
+            
+            const completed = allTasks.filter(t => t.completed).length;
+            const pending = allTasks.filter(t => !t.completed && !t.overdue).length;
+            const overdue = allTasks.filter(t => t.overdue && !t.completed).length;
+            
+            distributionChart.data.datasets[0].data = [completed, pending, overdue];
+            distributionChart.update();
+            
+            // Atualizar gráfico de tendência
+            trendChart.data.labels = trendLabels;
+            trendChart.data.datasets[0].data = trendData;
+            trendChart.update();
+        }
+
+        function formatDateShort(date) {
+            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+        }
+
+        // =========================================
+        // COMPARAÇÃO
+        // =========================================
+        function updateComparisonSelectors() {
+            const type = document.getElementById('compare-type').value;
+            const secondSelector = document.getElementById('second-period-selector');
+            
+            if (type === 'month') {
+                // Mostrar seletores de mês
+                secondSelector.style.display = 'block';
+            } else {
+                // Mostrar apenas seletores de ano
+                secondSelector.style.display = 'block';
+            }
+        }
+
+        function performComparison() {
+            const type = document.getElementById('compare-type').value;
+            
+            let firstPeriodTasks, secondPeriodTasks;
+            let firstLabel, secondLabel;
+            
+            if (type === 'month') {
+                const firstMonth = parseInt(document.getElementById('first-month').value);
+                const firstYear = parseInt(document.getElementById('first-year').value);
+                const secondMonth = parseInt(document.getElementById('second-month').value);
+                const secondYear = parseInt(document.getElementById('second-year').value);
+                
+                firstPeriodTasks = tasks.filter(t => {
+                    const taskDate = new Date(t.date);
+                    return taskDate.getFullYear() === firstYear && 
+                           taskDate.getMonth() === firstMonth;
+                });
+                
+                secondPeriodTasks = tasks.filter(t => {
+                    const taskDate = new Date(t.date);
+                    return taskDate.getFullYear() === secondYear && 
+                           taskDate.getMonth() === secondMonth;
+                });
+                
+                const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                                   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                
+                firstLabel = `${monthNames[firstMonth]} ${firstYear}`;
+                secondLabel = `${monthNames[secondMonth]} ${secondYear}`;
+                
+            } else {
+                const firstYear = parseInt(document.getElementById('first-year').value);
+                const secondYear = parseInt(document.getElementById('second-year').value);
+                
+                firstPeriodTasks = tasks.filter(t => {
+                    const taskDate = new Date(t.date);
+                    return taskDate.getFullYear() === firstYear;
+                });
+                
+                secondPeriodTasks = tasks.filter(t => {
+                    const taskDate = new Date(t.date);
+                    return taskDate.getFullYear() === secondYear;
+                });
+                
+                firstLabel = firstYear.toString();
+                secondLabel = secondYear.toString();
+            }
+            
+            // Calcular estatísticas
+            const firstCompleted = firstPeriodTasks.filter(t => t.completed).length;
+            const firstTotal = firstPeriodTasks.length;
+            const firstProductivity = firstTotal > 0 ? Math.round((firstCompleted / firstTotal) * 100) : 0;
+            
+            const secondCompleted = secondPeriodTasks.filter(t => t.completed).length;
+            const secondTotal = secondPeriodTasks.length;
+            const secondProductivity = secondTotal > 0 ? Math.round((secondCompleted / secondTotal) * 100) : 0;
+            
+            // Determinar resultado
+            let resultTitle, resultDescription, resultClass;
+            
+            if (firstProductivity > secondProductivity) {
+                resultClass = 'result-positive';
+                resultTitle = `🎉 ${firstLabel} foi mais produtivo!`;
+                resultDescription = `Sua produtividade em ${firstLabel} foi ${firstProductivity}%, enquanto em ${secondLabel} foi ${secondProductivity}%. Isso é ${firstProductivity - secondProductivity}% melhor!`;
+            } else if (secondProductivity > firstProductivity) {
+                resultClass = 'result-negative';
+                resultTitle = `📉 ${secondLabel} foi mais produtivo`;
+                resultDescription = `Sua produtividade em ${secondLabel} foi ${secondProductivity}%, enquanto em ${firstLabel} foi ${firstProductivity}%. Isso é ${secondProductivity - firstProductivity}% melhor.`;
+            } else {
+                resultClass = 'result-neutral';
+                resultTitle = `⚖️ Produtividade igual`;
+                resultDescription = `Sua produtividade em ambos os períodos foi de ${firstProductivity}%.`;
+            }
+            
+            // Exibir resultado
+            const resultDiv = document.getElementById('comparison-result');
+            document.getElementById('comparison-title').textContent = resultTitle;
+            document.getElementById('comparison-title').className = `result-title ${resultClass}`;
+            document.getElementById('comparison-description').textContent = resultDescription;
+            resultDiv.style.display = 'block';
+        }
+
+        // =========================================
+        // HISTÓRICO
+        // =========================================
+        function updateHistoryTasks() {
+            const container = document.getElementById('history-tasks');
+            const year = parseInt(document.getElementById('history-year').value);
+            const month = document.getElementById('history-month').value;
+            
+            let filteredTasks = tasks.filter(t => {
+                const taskDate = new Date(t.date);
+                return taskDate.getFullYear() === year;
+            });
+            
+            if (month !== 'all') {
+                filteredTasks = filteredTasks.filter(t => {
+                    const taskDate = new Date(t.date);
+                    return taskDate.getMonth() === parseInt(month);
+                });
+            }
+            
+            // Ordenar por data (mais recente primeiro)
+            filteredTasks.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            if (filteredTasks.length === 0) {
+                const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                                   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                const monthName = month === 'all' ? '' : ` em ${monthNames[parseInt(month)]}`;
+                
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <p>Nenhuma tarefa em ${year}${monthName}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filteredTasks.map(task => {
+                const taskDate = new Date(task.date);
+                const formattedDate = taskDate.toLocaleDateString('pt-BR', { 
+                    weekday: 'long', 
+                    day: '2-digit', 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+                
+                let statusClass = '';
+                let statusText = '';
+                
+                if (task.completed) {
+                    statusClass = 'status-completed';
+                    statusText = 'Concluída';
+                } else if (task.overdue) {
+                    statusClass = 'status-overdue';
+                    statusText = 'Atrasada';
+                } else {
+                    statusClass = 'status-pending';
+                    statusText = 'Pendente';
+                }
+                
+                // Determinar ícone
+                let iconHtml = '';
+                if (task.iconType === 'image') {
+                    iconHtml = `<img src="${task.icon}" alt="Ícone da tarefa">`;
+                } else {
+                    iconHtml = `<i class="${task.icon || 'fas fa-tasks'}"></i>`;
+                }
+                
+                return `
+                    <div class="task-item ${task.completed ? 'completed' : ''} ${task.overdue ? 'overdue' : ''}">
+                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTaskCompletion(${task.id})">
+                        
+                        <div class="task-icon" style="background: ${getTaskColor(task)}">
+                            ${iconHtml}
+                        </div>
+                        
+                        <div class="task-info">
+                            <div class="task-name">${task.title}</div>
+                            ${task.description ? `<div class="task-description">${task.description}</div>` : ''}
+                            <div class="task-meta">
+                                <div class="task-time"><i class="far fa-calendar"></i> ${formattedDate}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-actions">
+                            <button class="task-btn edit" onclick="editTask(${task.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="task-btn delete" onclick="deleteTask(${task.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="task-status ${statusClass}">
+                            ${statusText}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =========================================
+        // CONTROLES DE DATA
+        // =========================================
+        function changeYear(delta) {
+            currentYear += delta;
+            updateDateDisplay();
+            updateDashboard();
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateDateDisplay();
+            updateDashboard();
+        }
+
+        function goToToday() {
+            const now = new Date();
+            currentYear = now.getFullYear();
+            currentMonth = now.getMonth();
+            updateDateDisplay();
+            updateDashboard();
+            showNotification('Voltou para o mês atual');
+        }
+
+        function updateDateDisplay() {
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            
+            document.getElementById('current-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            document.getElementById('current-year').textContent = currentYear;
+            document.getElementById('current-month').textContent = monthNames[currentMonth];
+        }
+
+        function populateYearSelects() {
+            const years = new Set();
+            tasks.forEach(t => {
+                const date = new Date(t.date);
+                years.add(date.getFullYear());
+            });
+            
+            // Adicionar anos de 2020 a 2030
+            for (let year = 2020; year <= 2030; year++) {
+                years.add(year);
+            }
+            
+            const yearArray = Array.from(years).sort((a, b) => b - a);
+            
+            // Preencher todos os selects de ano
+            const yearSelects = [
+                'first-year', 'second-year', 'history-year'
+            ];
+            
+            yearSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '';
+                
+                yearArray.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    
+                    if (year === currentYear) {
+                        option.selected = true;
+                    }
+                    
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        function populateMonthSelects() {
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            
+            // Preencher selects de mês
+            const monthSelects = ['first-month', 'second-month'];
+            
+            monthSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '';
+                
+                monthNames.forEach((month, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = month;
+                    
+                    if (index === currentMonth) {
+                        option.selected = true;
+                    }
+                    
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        // =========================================
+        // CONFIGURAÇÕES
+        // =========================================
+        function handleIconUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification('Por favor, selecione um arquivo de imagem!', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const iconPreview = document.getElementById('icon-preview');
+                iconPreview.innerHTML = `<img src="${e.target.result}" alt="Ícone personalizado">`;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function exportData() {
+            const data = {
+                tasks: tasks,
+                settings: settings,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `minhas-tarefas-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Dados exportados com sucesso!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm('Isso substituirá todas as suas tarefas e configurações atuais. Continuar?')) {
+                        if (data.tasks) tasks = data.tasks;
+                        if (data.settings) settings = data.settings;
+                        
+                        saveData();
+                        initializeApp();
+                        updateUI();
+                        
+                        showNotification('Dados importados com sucesso!');
+                    }
+                } catch (error) {
+                    showNotification('Erro ao importar dados. Arquivo inválido!', 'error');
+                    console.error('Erro na importação:', error);
+                }
+                
+                // Resetar input
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function clearAllData() {
+            if (confirm('Tem certeza que deseja limpar TODOS os dados? Isso não pode ser desfeito!')) {
+                tasks = [];
+                settings = {
+                    notifications: true,
+                    dailyReminders: true,
+                    completionSound: true,
+                    overdueSound: true,
+                    completionMusicUrl: '',
+                    overdueMusicUrl: ''
+                };
+                
+                saveData();
+                initializeApp();
+                updateUI();
+                
+                showNotification('Todos os dados foram limpos!');
+            }
+        }
+
+        // =========================================
+        // NOTIFICAÇÕES
+        // =========================================
+        function setupNotificationPermission() {
+            if (!("Notification" in window)) {
+                console.log("Este navegador não suporta notificações");
+                return;
+            }
+            
+            if (Notification.permission === "granted") {
+                notificationPermission = true;
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    notificationPermission = permission === "granted";
+                });
+            }
+        }
+
+        function sendNotification(title, body) {
+            if (!notificationPermission || !settings.notifications) return;
+            
+            try {
+                const notification = new Notification(title, {
+                    body: body,
+                    icon: '/favicon.ico'
+                });
+                
+                notification.onclick = function() {
+                    window.focus();
+                    this.close();
+                };
+            } catch (error) {
+                console.error("Erro ao enviar notificação:", error);
+            }
+        }
+
+        function updateNotificationCount() {
+            const overdueCount = tasks.filter(t => t.overdue && !t.completed).length;
+            const countElement = document.getElementById('notification-count');
+            
+            if (overdueCount > 0) {
+                countElement.textContent = overdueCount;
+                countElement.style.display = 'flex';
+            } else {
+                countElement.style.display = 'none';
+            }
+        }
+
+        function showNotifications() {
+            const overdueTasks = tasks.filter(t => t.overdue && !t.completed);
+            
+            if (overdueTasks.length === 0) {
+                showNotification('Você não tem notificações!', 'info');
+                return;
+            }
+            
+            let message = `Você tem ${overdueTasks.length} tarefa(s) atrasada(s):\n`;
+            overdueTasks.slice(0, 3).forEach((task, index) => {
+                message += `\n${index + 1}. ${task.title}`;
+            });
+            
+            if (overdueTasks.length > 3) {
+                message += `\n\n... e mais ${overdueTasks.length - 3} tarefa(s)`;
+            }
+            
+            alert(message);
+        }
+
+        // =========================================
+        // SONS E CELEBRAÇÃO
+        // =========================================
+        function playCompletionSound() {
+            if (!settings.completionSound) return;
+            
+            try {
+                const audio = document.getElementById('completion-sound');
+                
+                // Se houver URL personalizada, usar ela
+                if (settings.completionMusicUrl) {
+                    const customAudio = new Audio(settings.completionMusicUrl);
+                    customAudio.play().catch(e => {
+                        console.error("Erro ao reproduzir áudio personalizado:", e);
+                        // Fallback para áudio padrão
+                        audio.currentTime = 0;
+                        audio.play();
+                    });
+                } else {
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+            } catch (error) {
+                console.error("Erro ao reproduzir som:", error);
+            }
+        }
+
+        function playOverdueSound() {
+            if (!settings.overdueSound) return;
+            
+            try {
+                const audio = document.getElementById('overdue-sound');
+                
+                // Se houver URL personalizada, usar ela
+                if (settings.overdueMusicUrl) {
+                    const customAudio = new Audio(settings.overdueMusicUrl);
+                    customAudio.play().catch(e => {
+                        console.error("Erro ao reproduzir áudio personalizado:", e);
+                        // Fallback para áudio padrão
+                        audio.currentTime = 0;
+                        audio.play();
+                    });
+                } else {
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+            } catch (error) {
+                console.error("Erro ao reproduzir som:", error);
+            }
+        }
+
+        function showCelebration() {
+            // Selecionar mensagem aleatória
+            const randomMessage = celebrationMessages[Math.floor(Math.random() * celebrationMessages.length)];
+            
+            document.getElementById('celebration-message').textContent = randomMessage;
+            document.getElementById('celebration-modal').classList.add('active');
+            
+            // Fechar automaticamente após 5 segundos
+            setTimeout(() => {
+                closeCelebration();
+            }, 5000);
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebration-modal').classList.remove('active');
+        }
+
+        // =========================================
+        // UTILITÁRIOS
+        // =========================================
+        function showNotification(message, type = 'success') {
+            // Criar notificação
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 30px;
+                right: 30px;
+                padding: 20px 25px;
+                background: ${type === 'error' ? 'var(--danger)' : type === 'info' ? 'var(--info)' : 'var(--success)'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: fadeIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                max-width: 400px;
+                font-weight: 500;
+            `;
+            
+            const icon = type === 'error' ? 'exclamation-circle' : 
+                        type === 'info' ? 'info-circle' : 'check-circle';
+            
+            notification.innerHTML = `
+                <i class="fas fa-${icon}" style="font-size: 1.5rem;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeIn 0.3s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+    </html>
